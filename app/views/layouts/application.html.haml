@@ -1,0 +1,43 @@
+!!!
+%html
+  %head
+    %meta{:content => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type'}
+    %title Bookstore
+    = stylesheet_link_tag    'application', media: 'all'
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          = link_to t('app_name'), root_path, class: 'navbar-brand'
+        #navbar
+          %ul.nav.navbar-nav
+            %li
+              = link_to t('shop'), books_path
+            %li
+              = shopping_cart_link
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %li
+                = link_to t('settings'), settings_billing_address_path
+              - if current_user.is_admin?
+                %li
+                  = link_to t('admin'), rails_admin_path
+              %li
+                = link_to t('auth.sign_out'), destroy_user_session_path(resource_name)
+            - else
+              %li
+                = link_to t('auth.sign_in'), new_session_path(resource_name)
+              %li
+                = link_to t('auth.sign_up'), new_registration_path(resource_name)
+
+    .container
+      - if notice
+        .alert.alert-info= notice
+
+      - if alert
+        .alert.alert-danger= alert
+
+      = yield
+
+  = javascript_include_tag 'application'

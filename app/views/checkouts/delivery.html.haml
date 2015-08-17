@@ -1,0 +1,11 @@
+= render layout: 'layouts/checkout' do
+
+  = form_for @current_order, url: wizard_path, method: :put do |f|
+
+    - @deliveries.each do |d|
+
+      %div
+        = f.radio_button :delivery_id, d.id
+        = f.label :delivery_id, d.name_with_price + '$'
+
+    = f.submit 'Save and continue'

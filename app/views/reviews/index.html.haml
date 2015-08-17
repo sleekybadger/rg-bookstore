@@ -1,0 +1,26 @@
+%h1= t 'review.reviews_for', name: @book
+
+.reviews
+  .add_new
+    - if current_user
+      - if current_user.is_left_review?(@book)
+        = t 'review.review_left'
+      - else
+        = link_to t('review.add_new'), new_book_review_path(@book)
+    - else
+      = t 'review.not_singed_in'
+      = link_to t('auth.sign_in'), new_session_path(resource_name)
+
+  %ul.reviews-list.list-unstyled
+    - @reviews.each do |review|
+      %li.review
+        .r
+          - review.rating.times do
+            = glyph(:star)
+        .by
+          = t 'review.left_by', name: review.user
+        .note
+          = review.note
+
+  %div= paginate @reviews
+  %div= page_entries_info @reviews

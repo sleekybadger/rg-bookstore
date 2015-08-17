@@ -1,0 +1,7 @@
+.categories
+  %h2= t('categories')
+
+  %ul.categories-list.list-unstyled
+    - categories.each do |c|
+      %li
+        = link_to c, category_path(c)

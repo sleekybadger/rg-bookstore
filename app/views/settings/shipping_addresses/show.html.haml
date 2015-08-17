@@ -1,0 +1,6 @@
+= render layout: 'layouts/settings' do
+
+  %h2= t('shipping.name')
+
+  = render partial: 'settings/shared/address_form',
+    locals: { address: @shipping_address, path: settings_shipping_address_path }

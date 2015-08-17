@@ -1,0 +1,6 @@
+= render layout: 'layouts/settings' do
+
+  %h2= t('billing.name')
+
+  = render partial: 'settings/shared/address_form',
+    locals: { address: @billing_address, path: settings_billing_address_path }

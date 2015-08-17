@@ -1,0 +1,42 @@
+= render layout: 'layouts/checkout' do
+
+  %h3 Billing address
+  %div
+    %div= @current_order.billing_address.first_name
+    %div= @current_order.billing_address.last_name
+    %div= @current_order.billing_address.country
+    %div= @current_order.billing_address.city
+    %div= @current_order.billing_address.street
+    %div= @current_order.billing_address.zip
+    %div= @current_order.billing_address.phone
+    %div
+      = link_to 'Edit', wizard_path(:address)
+
+  %h3 Shipping address
+  %div
+    %div= @current_order.shipping_address.first_name
+    %div= @current_order.shipping_address.last_name
+    %div= @current_order.shipping_address.country
+    %div= @current_order.shipping_address.city
+    %div= @current_order.shipping_address.street
+    %div= @current_order.shipping_address.zip
+    %div= @current_order.shipping_address.phone
+    %div
+      = link_to 'Edit', wizard_path(:address)
+
+  %h3 Delivery
+  %div
+    %div= @current_order.delivery.name
+    %div
+      = link_to 'Edit', wizard_path(:delivery)
+
+  %h4 Payment
+  %div
+    %div= @current_order.credit_card.number
+    %div= @current_order.credit_card.expiration_month
+    %div= @current_order.credit_card.expiration_year
+    %div
+      = link_to 'Edit', wizard_path(:payment)
+
+  = form_tag wizard_path, method: :put do
+    = button_tag 'Place Order'

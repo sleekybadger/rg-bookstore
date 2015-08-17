@@ -1,0 +1,65 @@
+.book-page
+  %h1= @book
+
+  .clearfix.book-top-info
+    .pull-left.book-cover
+      %img{src: @book.cover.url}
+
+    .pull-left.book-short-info
+
+      .author
+        %strong.caption
+          = t 'book.author'
+        = @book.author
+
+      .price
+        %strong.caption
+          = t 'book.price'
+        = @book.price
+        = t 'currancy'
+
+      .rating
+        - if @book.average_rating > 0
+          - @book.average_rating.times do
+            = glyph(:star)
+
+      .add-to-cart
+        = render partial: '/helpers/validation_errors', locals: { suspect: @order_item }
+        = form_for @order_item, url: add_item_book_order_path(@book), html: { class: 'form-inline clearfix' } do |f|
+          .form-group
+            = f.number_field :quantity, value: 1, min: 1, class: 'form-control'
+          = f.button t('book.add_to_cart'), class: 'btn btn-primary'
+
+      .short-description
+        = @book.short_description
+
+  .full-description
+    = @book.full_description.html_safe
+
+  .reviews
+    %h3= t 'review.reviews'
+
+    .add_new
+      - if current_user
+        - if current_user.is_left_review?(@book)
+          = t 'review.review_left'
+        - else
+          = link_to t('review.add_new'), new_book_review_path(@book)
+      - else
+        = t 'review.not_singed_in'
+        = link_to t('auth.sign_in'), new_session_path(resource_name)
+
+    %ul.reviews-list.list-unstyled
+      - @book.reviews.approved.each_with_index do |review, index|
+        - if index > 4
+          %li
+            = link_to t('review.read_more'), book_reviews_path(@book)
+          - break
+        %li.review
+          .r
+            - review.rating.times do
+              = glyph(:star)
+          .by
+            = t 'review.left_by', name: review.user
+          .note
+            = review.note

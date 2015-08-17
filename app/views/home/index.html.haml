@@ -1,0 +1,22 @@
+- if @best_sellers
+  .carousel#best-sellers-carousel.slide{'data-ride': 'carousel'}
+    .carousel-inner{'role': 'listbox'}
+      - @best_sellers.each_with_index do |item, index|
+        .item{class: (index == 0 ? 'active' : '')}
+          %img{'src': item.cover.url}
+          .title.slide-info #{item}
+          .author.slide-info by #{item.author}
+
+          - if item.short_description
+            .short-description.slide-info= item.short_description
+
+          = link_to glyph(:eye_open) + ' View more info', book_path(item),  {class: 'btn btn-default more-info'}
+
+    %a.left.carousel-control{href: '#best-sellers-carousel', role: 'button', 'data-slide': 'prev'}
+      = glyph(:chevron_left)
+
+    %a.right.carousel-control{href: '#best-sellers-carousel', role: 'button', 'data-slide': 'next'}
+      = glyph(:chevron_right)
+- else
+  %h3
+    Ooppps there is no popular books

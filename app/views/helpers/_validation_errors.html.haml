@@ -1,0 +1,4 @@
+- if suspect.errors.any?
+  %ul.list-group
+    -suspect.errors.full_messages.each do |msg|
+      %li.list-group-item.list-group-item-danger= msg

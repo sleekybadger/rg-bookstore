@@ -1,0 +1,12 @@
+.books
+  %h2= t('books')
+
+  .clearfix.books-list
+    - books.each do |book|
+      %a{ href: book_path(book), class: 'single-book' }
+        %img{ src: book.cover.thumb.url }
+        = book
+
+  .text-center
+    = paginate books
+    = page_entries_info books

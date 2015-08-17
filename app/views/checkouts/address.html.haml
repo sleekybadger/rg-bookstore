@@ -1,0 +1,57 @@
+= render layout: 'layouts/checkout' do
+
+  = form_for @current_order, url: wizard_path, method: :put do |of|
+
+    %h3 Billing address
+    = of.fields_for :billing_address do |bf|
+      %div
+        = bf.label :first_name
+        = bf.text_field :first_name
+      %div
+        = bf.label :last_name
+        = bf.text_field :last_name
+      %div
+        = bf.label :country
+        = bf.collection_select :country_id, @countries, :id, :name, prompt: true
+      %div
+        = bf.label :street
+        = bf.text_field :street
+      %div
+        = bf.label :city
+        = bf.text_field :city
+      %div
+        = bf.label :zip
+        = bf.text_field :zip
+      %div
+        = bf.label :phone
+        = bf.text_field :phone
+
+    %br
+
+    %h3 Shipping address
+    = of.fields_for :shipping_address do |sf|
+      %div
+        = sf.label :first_name
+        = sf.text_field :first_name
+      %div
+        = sf.label :last_name
+        = sf.text_field :last_name
+      %div
+        = sf.label :country
+        = sf.collection_select :country_id, @countries, :id, :name, prompt: true
+      %div
+        = sf.label :street
+        = sf.text_field :street
+      %div
+        = sf.label :city
+        = sf.text_field :city
+      %div
+        = sf.label :zip
+        = sf.text_field :zip
+      %div
+        = sf.label :phone
+        = sf.text_field :phone
+
+    %br
+
+    = of.submit 'Save and continue'

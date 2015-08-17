@@ -1,0 +1,61 @@
+.book-page {
+  h1 {
+    margin: 0 0 30px;
+  }
+
+  .caption {
+    font-size: 15px;
+  }
+
+  .book-top-info {
+    margin: 0 0 30px;
+  }
+
+  .book-cover {
+    width: 300px;
+    margin: 0 40px 0 0;
+  }
+  .book-short-info {
+    width: 600px;
+    padding: 0 20px;
+  }
+
+  .author, .price, .rating {
+    font-size: 18px;
+    margin: 0 0 15px;
+  }
+
+  .add-to-cart {
+    width: 300px;
+    margin: 0 0 15px;
+
+    form > * {
+      float: left;
+    }
+
+    input {
+      width: 170px;
+      margin: 0 20px 0 0;
+    }
+  }
+}
+
+.reviews {
+  .reviews-list {
+    margin: 35px 0 0;
+
+    li.review {
+      width: 600px;
+      border-bottom: 1px solid #ccc;
+      margin: 0 0 20px;
+    }
+
+    .rating, .by {
+      margin: 0 0 5px;
+    }
+
+    .note {
+      padding: 0 0 15px;
+    }
+  }
+}

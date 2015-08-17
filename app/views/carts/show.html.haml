@@ -1,0 +1,31 @@
+%h1 Cart
+
+- if cart_items.empty?
+  Your cart is empty
+- else
+  %table
+    %thead
+      %th Name
+      %th Quantity
+      %th Price for one
+      %th For all
+      %th
+    %tbody
+    - cart_items.each do | item |
+      %tr
+        %td
+          = item.book
+        %td
+          = item.quantity
+        %td
+          = item.book.price
+        %td
+          = item.total_price
+        %td
+          = render partial: '/helpers/validation_errors', locals: { suspect: item }
+          = form_for item, method: :delete, url: remove_item_book_order_path(item.book) do |f|
+            = f.label :quantity
+            = f.number_field :quantity, value: 1, min: 1
+            = submit_tag('Remove from cart')
+
+  = link_to 'Checkout', cart_checkout_path(:address)

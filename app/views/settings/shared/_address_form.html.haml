@@ -1,0 +1,27 @@
+= render partial: '/helpers/validation_errors', locals: { suspect: address }
+= form_for address, url: path do |f|
+  .form-group
+    = f.label :first_name
+    = f.text_field :first_name, class: 'form-control'
+  .form-group
+    = f.label :last_name
+    = f.text_field :last_name, class: 'form-control'
+  .form-group
+    = f.label :country
+    = f.collection_select :country_id, @countries, :id, :name, { prompt: true }, { class: 'form-control' }
+  .form-group
+    = f.label :street
+    = f.text_field :street, class: 'form-control'
+  .form-group
+    = f.label :city
+    = f.text_field :city, class: 'form-control'
+  .form-group
+    = f.label :zip
+    = f.text_field :zip, class: 'form-control'
+  .form-group
+    = f.label :phone
+    = f.text_field :phone, class: 'form-control'
+  = f.button t('save'), class: 'btn btn-primary'
+
+= form_for address, url: path, method: :delete do |f|
+  = f.button t('destroy'), class: 'btn btn-danger'
