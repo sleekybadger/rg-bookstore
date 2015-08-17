@@ -2,7 +2,7 @@ en:
   app_name: "Bookstore"
   shop: "Shop"
   settings: "Settings"
-  admin: "Admin"
+  admin_label: "Admin"
   categories: "Categories"
   books: "Books"
   auth:

@@ -22,7 +22,7 @@
                 = link_to t('settings'), settings_billing_address_path
               - if current_user.is_admin?
                 %li
-                  = link_to t('admin'), rails_admin_path
+                  = link_to t('admin_label'), rails_admin_path
               %li
                 = link_to t('auth.sign_out'), destroy_user_session_path(resource_name)
             - else

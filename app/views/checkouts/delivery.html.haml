@@ -6,6 +6,6 @@
 
       %div
         = f.radio_button :delivery_id, d.id
-        = f.label :delivery_id, d.name_with_price + '$'
+        = f.label :delivery_id, "#{d} + #{d.beauty_price}#{t('currancy')}"
 
     = f.submit 'Save and continue'
