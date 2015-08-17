@@ -47,3 +47,5 @@ group :test do
   gem 'shoulda-matchers'
 end
 
+ruby '2.2.1'
+
