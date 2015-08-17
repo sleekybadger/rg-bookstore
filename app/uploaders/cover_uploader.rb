@@ -32,5 +32,5 @@ class CoverUploader < CarrierWave::Uploader::Base
       name = :"@#{mounted_as}_secure_token"
       model.instance_variable_get(name) || model.instance_variable_set(name, SecureRandom.uuid)
     end
-  
+
 end
