@@ -23,5 +23,6 @@
     = f.text_field :phone, class: 'form-control'
   = f.button t('save'), class: 'btn btn-primary'
 
-= form_for address, url: path, method: :delete do |f|
-  = f.button t('destroy'), class: 'btn btn-danger'
+- unless address.new_record?
+  = form_for address, url: path, method: :delete do |f|
+    = f.button t('destroy'), class: 'btn btn-danger'

@@ -1,0 +1,28 @@
+= form_tag(search_path, {method: :get, class: 'form-inline search'}) do
+  .form-group
+    = text_field_tag :query, @query, placeholder: t('search.placeholder'), class: 'form-control'
+  .radio
+    %label
+      = radio_button_tag :search_by, 'books', @search_by.nil? || @search_by == 'books'
+      = t('search.by_books')
+  .radio
+    %label
+      = radio_button_tag :search_by, 'authors', @search_by == 'authors'
+      = t('search.by_authors')
+  = button_tag t('search.name'), class: 'btn btn-primary btn', name: nil
+
+- if @query.present? && @search_by.present?
+  - if @results.empty?
+    .search-results-query
+      = t('search.no_result')
+      %strong
+        = @query
+  - else
+    .search-results-query
+      = t('search.results_for')
+      %strong
+        = @query
+    %ol.search-results-list
+      - @results.each do |r|
+        %li
+          = link_to r, r, target: '_blank'

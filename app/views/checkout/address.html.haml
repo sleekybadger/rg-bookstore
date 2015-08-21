@@ -1,0 +1,76 @@
+= render layout: 'layouts/checkout' do
+
+  = form_for @current_order, url: wizard_path, method: :put do |of|
+
+    .row
+      .col-md-3
+        %h4.page-header= t('billing.name')
+
+        .billing-address-form
+          = render partial: '/helpers/validation_errors', locals: { suspect: @current_order.billing_address }
+          = of.fields_for :billing_address do |bf|
+            .form-group
+              = bf.label :first_name
+              = bf.text_field :first_name, class: 'form-control'
+            .form-group
+              = bf.label :last_name
+              = bf.text_field :last_name, class: 'form-control'
+            .form-group
+              = bf.label :country
+              = bf.collection_select :country_id, @countries, :id, :name, { prompt: true }, { class: 'form-control' }
+            .form-group
+              = bf.label :street
+              = bf.text_field :street, class: 'form-control'
+            .form-group
+              = bf.label :city
+              = bf.text_field :city, class: 'form-control'
+            .form-group
+              = bf.label :zip
+              = bf.text_field :zip, class: 'form-control'
+            .form-group
+              = bf.label :phone
+              = bf.text_field :phone, class: 'form-control'
+
+      .col-md-1
+
+      .col-md-3
+        %h4.page-header= t('shipping.name')
+
+        .checkbox
+          %label
+            = check_box_tag :same_as_billing, nil
+            = t('checkout.use_billing')
+
+        .shipping-address-form
+          = render partial: '/helpers/validation_errors', locals: { suspect: @current_order.shipping_address }
+          = of.fields_for :shipping_address do |sf|
+            .form-group
+              = sf.label :first_name
+              = sf.text_field :first_name, class: 'form-control'
+            .form-group
+              = sf.label :last_name
+              = sf.text_field :last_name, class: 'form-control'
+            .form-group
+              = sf.label :country
+              = sf.collection_select :country_id, @countries, :id, :name, { prompt: true }, { class: 'form-control' }
+            .form-group
+              = sf.label :street
+              = sf.text_field :street, class: 'form-control'
+            .form-group
+              = sf.label :city
+              = sf.text_field :city, class: 'form-control'
+            .form-group
+              = sf.label :zip
+              = sf.text_field :zip, class: 'form-control'
+            .form-group
+              = sf.label :phone
+              = sf.text_field :phone, class: 'form-control'
+
+      .col-md-1
+
+      .col-md-4
+        = render partial: 'checkout/order_summary', locals:  { order: @current_order }
+
+    %hr
+
+    = of.button t('checkout.next'), name: nil, class: 'btn btn-success btn-lg pull-right'

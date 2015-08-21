@@ -1,0 +1,14 @@
+%h1.page-header= @author
+
+.author-bio.clearfix
+  %img{src: @author.portrait.url, class: 'pull-left'}
+  = @author.biography.html_safe
+
+- if @author.books.empty?
+  .author-no-books= t('author.no_books')
+- else
+  %h3.author-books= t('author.books', author: @author)
+  %ul.author-books-list
+    - @author.books.each do |b|
+      %li
+        = link_to b, b

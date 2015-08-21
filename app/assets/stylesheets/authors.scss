@@ -1,0 +1,26 @@
+.author-bio {
+  img {
+    margin: 0 15px 15px 0;
+  }
+}
+
+.author-books-list {
+  a {
+    font-size: 18px;
+  }
+}
+
+.authors-list {
+  li {
+    width: 150px;
+    margin: 0 8px 8px 0;
+
+    &:nth-child(6n) {
+      margin: 0 0 8px;
+    }
+  }
+}
+
+.authors-empty {
+  font-size: 20px;
+}

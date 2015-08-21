@@ -1,0 +1,15 @@
+.cart-is-empty {
+  font-size: 20px;
+}
+
+.cart-table {
+  td, th {
+    vertical-align: middle!important;
+  }
+
+  form {
+    #order_item_quantity {
+      width: 100px;
+    }
+  }
+}

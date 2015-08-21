@@ -1,0 +1,46 @@
+= render layout: 'layouts/settings' do
+
+  %h2= t('profile.name')
+
+  %h3= t('profile.info_name')
+
+  - if current_p? update_info_settings_profile_path
+    = render partial: '/helpers/validation_errors', locals: { suspect: @user }
+
+  = form_for @user, method: :put, url: update_info_settings_profile_path do |f|
+    .form-group
+      = f.label :first_name
+      = f.text_field :first_name, autofocus: true, class: 'form-control'
+    .form-group
+      = f.label :last_name
+      = f.text_field :last_name, class: 'form-control'
+    .form-group
+      = f.label :email
+      = f.email_field :email, class: 'form-control'
+    = f.button t('save'), class: 'btn btn-primary'
+
+
+  %h3= t('profile.password_name')
+
+  - if current_p? update_password_settings_profile_path
+    = render partial: '/helpers/validation_errors', locals: { suspect: @user }
+
+  = form_for @user, method: :put, url: update_password_settings_profile_path do |f|
+    .form-group
+      = f.label :current_password
+      = f.password_field :current_password, class: 'form-control', autocomplete: 'off'
+    .form-group
+      = f.label :password
+      = f.password_field :password, class: 'form-control', autocomplete: 'off'
+    .form-group
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+    = f.button t('save'), class: 'btn btn-primary'
+
+  %h3= t('profile.destroy_name')
+  = form_tag(settings_profile_path, {method: :delete}) do
+    .checkbox
+      %label
+        = check_box_tag :want_to_delete, nil
+        = t('profile.destroy_confirm')
+    = button_tag t('destroy'), class: 'btn btn-danger'

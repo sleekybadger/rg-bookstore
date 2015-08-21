@@ -1,5 +1,7 @@
 class Settings::BillingAddressesController < Settings::AddressController
+
   before_filter :create_billing_address, only: :create
+
   load_and_authorize_resource :billing_address, through: :current_user, singleton: true, param_method: :billing_params
 
   def show

@@ -1,4 +1,4 @@
-module CheckoutsHelper
+module CheckoutHelper
 
   def wizard_progress
     out = []
@@ -7,17 +7,20 @@ module CheckoutsHelper
       finished = past_step?(s)
 
       classes = 'step'
-      classes += (s == step) ? ' current' : ''
+      classes += (s == step) ? ' active' : ''
       classes += finished ? ' finished' : ''
 
       out.push({
         name: s,
-        title: s.to_s.capitalize,
         classes: classes,
       })
     end
 
     out
+  end
+
+  def months_for_select
+    (1..12).each.collect { |i| [Date::MONTHNAMES[i], i]  }
   end
 
 end

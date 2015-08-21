@@ -265,3 +265,14 @@ body,
     top: 0;
 }
 
+.top-buffer {
+    margin-top: 35px;
+}
+
+.dl-horizontal dt {
+    text-align: left;
+}
+
+.navbar .navbar-nav .open .dropdown-menu {
+    border: 1px solid #ccc;
+}

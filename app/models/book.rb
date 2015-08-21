@@ -17,16 +17,20 @@ class Book < ActiveRecord::Base
 
   scope :best_sellers, -> (num = 3) do
     ids = OrderItem
-              .select('book_id, sum(quantity) as quantity')
-              .joins(:order)
-              .where(orders: {state: Order.states[:delivered]})
-              .group(:book_id)
-              .order('quantity')
-              .offset(0)
-              .limit(num)
-              .map(&:book_id)
+            .select('book_id, sum(quantity) as quantity')
+            .joins(:order)
+            .where(orders: {state: Order.states[:delivered]})
+            .group(:book_id)
+            .order('quantity')
+            .offset(0)
+            .limit(num)
+            .map(&:book_id)
 
-    Book.where(id: ids)
+    where(id: ids)
+  end
+
+  scope :search, -> (query) do
+    Book.where('lower(title) LIKE ?', "%#{query.to_s.downcase}%")
   end
 
   before_save do
@@ -39,7 +43,9 @@ class Book < ActiveRecord::Base
 
   def calculate_average_rating
     begin
-      (self.reviews.map(&:rating).inject(&:+) / self.reviews.size).floor
+      rating = reviews.approved.map(&:rating).inject(&:+)
+      rating = rating / reviews.approved.size
+      rating.floor
     rescue
       0
     end

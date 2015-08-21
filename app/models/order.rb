@@ -15,6 +15,8 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :shipping_address
   accepts_nested_attributes_for :credit_card
 
+  paginates_per 2
+
   enum state: %i(in_progress in_queue in_delivery delivered canceled)
 
   aasm column: :state, enum: true, whiny_transitions: false  do
@@ -27,15 +29,29 @@ class Order < ActiveRecord::Base
     event :place_order do
       transitions from: :in_progress, to: :in_queue do
         guard do
-          self.delivery.present? && self.billing_address.present? &&
-              self.shipping_address.present? && self.credit_card.present?
+          self.ready_for_checkout?
         end
       end
     end
   end
 
   def items_total_price
-    self.order_items.map(&:total_price).inject(&:+)
+    order_items.map(&:total_price).inject(&:+)
+  end
+
+  def total_price
+    total =  items_total_price
+    total += delivery ? delivery.price : 0
+    total.round(2)
+  end
+
+  def ready_for_checkout?
+    delivery.present? && billing_address.present? &&
+      shipping_address.present? && credit_card.present?
+  end
+
+  def to_s
+    "Order #{self.id}"
   end
 
 end

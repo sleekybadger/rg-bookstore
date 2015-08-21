@@ -3,4 +3,19 @@
     = link_to t('billing.name'), settings_billing_address_path
   %li
     = link_to t('shipping.name'), settings_shipping_address_path
+  %li
+    = link_to t('profile.name'), settings_profile_path
+  %li.dropdown
+    %a{ href: '#', class: 'dropdown-toggle', 'data-toggle': 'dropdown' }
+      = t('history.name')
+    %ul.dropdown-menu
+      %li
+        = link_to t('history.in_queue'), in_queue_settings_history_path
+      %li
+        = link_to t('history.in_delivery'), in_delivery_settings_history_path
+      %li
+        = link_to t('history.delivered'), delivered_settings_history_path
+      %li
+        = link_to t('history.canceled'), canceled_settings_history_path
+
 = yield

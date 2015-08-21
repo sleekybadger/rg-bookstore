@@ -1,14 +1,13 @@
-class CheckoutsController < ApplicationController
-
+class CheckoutController < ApplicationController
   include Wicked::Wizard
   include CurrentOrder
 
   before_action :check_cart_items, :set_user
 
-  steps :address, :delivery, :payment, :confirm, :complete
+  steps :address, :delivery, :payment, :confirm
 
   def show
-    case step
+    case step.to_sym
       when :address
         address
       when :delivery
@@ -17,8 +16,8 @@ class CheckoutsController < ApplicationController
         payment
       when :confirm
         confirm
-      when :complete
-        complete
+      when :wicked_finish
+        wizard_finish
       else
         not_found
     end
@@ -27,7 +26,7 @@ class CheckoutsController < ApplicationController
   end
 
   def update
-    case step
+    case step.to_sym
       when :address
         update_address
       when :delivery
@@ -36,7 +35,6 @@ class CheckoutsController < ApplicationController
         update_payment
       when :confirm
         place_order
-      when :complete
       else
         not_found
     end
@@ -68,7 +66,14 @@ class CheckoutsController < ApplicationController
 
     def update_address
       @countries = Country.all
-      @current_order.update(address_params)
+
+      attributes = address_params
+
+      if params[:same_as_billing]
+        attributes[:shipping_address_attributes] = attributes[:billing_address_attributes]
+      end
+
+      @current_order.assign_attributes(attributes)
     end
 
     def delivery
@@ -77,7 +82,7 @@ class CheckoutsController < ApplicationController
 
     def update_delivery
       @deliveries = Delivery.all
-      @current_order.update(delivery_params)
+      @current_order.assign_attributes(delivery_params)
     end
 
     def payment
@@ -85,23 +90,26 @@ class CheckoutsController < ApplicationController
     end
 
     def update_payment
-      @current_order.update(card_params)
+      @current_order.assign_attributes(card_params)
     end
 
     def confirm
       unless step_completed?(:address)
         flash[:alert] = t('checkout.fill_address')
-        jump_to(:address)
+
+        jump_to(:address) and return
       end
 
       unless step_completed?(:delivery)
         flash[:alert] = t('checkout.fill_delivery')
-        jump_to(:delivery)
+
+        jump_to(:delivery) and return
       end
 
       unless step_completed?(:payment)
         flash[:alert] = t('checkout.fill_payment')
-        jump_to(:payment)
+
+        jump_to(:payment) and return
       end
     end
 
@@ -109,41 +117,25 @@ class CheckoutsController < ApplicationController
       @current_order.place_order!
 
       unless @current_order.in_queue?
-        jump_to(:confirm)
+        jump_to(:confirm) and return
       end
 
-      if @current_order.update(user: current_user)
-        flash[:order_id] = @current_order.id
-        create_current_order
-      end
+      @current_order.user = @user
     end
 
-    def complete
+    def wizard_finish
+      flash[:order_id] = @current_order.id
+      flash[:notice] = t('checkout.order_created')
+
+      create_current_order
     end
 
-    def address_params
-      params.require(:order).permit(
-        billing_address_attributes: address_fields,
-        shipping_address_attributes: address_fields
-      )
-    end
-
-    def address_fields
-      %i(id first_name last_name street city zip phone type country_id)
-    end
-
-    def delivery_params
-      params.require(:order).permit(:delivery_id)
-    end
-
-    def card_params
-      params.require(:order).permit(
-        credit_card_attributes: %i(number expiration_month expiration_year cvv)
-      )
+    def finish_wizard_path
+      complete_cart_path
     end
 
     def check_cart_items
-      not_found if @current_order.order_items.empty? && !flash[:order_id]
+      not_found if @current_order.order_items.empty?
     end
 
     def set_user
@@ -161,6 +153,28 @@ class CheckoutsController < ApplicationController
         else
           false
       end
+    end
+
+    def address_params
+      params.require(:order).permit(
+          :same_as_billing,
+          billing_address_attributes: address_fields,
+          shipping_address_attributes: address_fields
+      )
+    end
+
+    def delivery_params
+      params.require(:order).permit(:delivery_id)
+    end
+
+    def card_params
+      params.require(:order).permit(
+          credit_card_attributes: %i(number expiration_month expiration_year cvv)
+      )
+    end
+
+    def address_fields
+      %i(first_name last_name street city zip phone type country_id)
     end
 
 end

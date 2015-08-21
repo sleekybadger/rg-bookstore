@@ -26,4 +26,12 @@ module ApplicationHelper
     link_to glyph(:shopping_cart) + size, cart_path
   end
 
+  def current_p?(*paths)
+    paths.include?(request.path)
+  end
+
+  def beauty_price(price)
+    '%.2f' % price
+  end
+
 end

@@ -24,9 +24,9 @@ class OrdersController < ApplicationController
   def remove_item
     respond_to do |format|
       if @order_item.reduce_quantity(order_item_params[:quantity])
-        format.html { redirect_to @book, notice: t('order.item_removed', item: @book) }
+        format.html { redirect_to cart_path, notice: t('order.item_removed', item: @book) }
       else
-        format.html { redirect_to @book, notice: t('order.item_not_removed', item: @book) }
+        format.html { redirect_to cart_path, notice: t('order.item_not_removed', item: @book) }
       end
     end
   end

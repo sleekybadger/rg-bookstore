@@ -1,0 +1,7 @@
+= render layout: 'layouts/settings' do
+
+  - if @orders.empty?
+    %h2= t('history.canceled_empty')
+  - else
+    %h2= t('history.canceled')
+    = render 'settings/histories/orders_view'

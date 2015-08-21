@@ -13,20 +13,20 @@ class Review < ActiveRecord::Base
   validates :note, length: { maximum: 500 }
   validates :rating, inclusion: { in: RATING }
 
-  after_save :recalculate_book_rating
-
   paginates_per 10
+
+  after_save :recalculate_book_rating
 
   aasm column: :status, enum: true do
     state :unmoderated, initial: true
     state :approved
     state :rejected
 
-    event :approve do
+    event :approve, after: :recalculate_book_rating do
       transitions from: %i(unmoderated rejected), to: :approved
     end
 
-    event :reject do
+    event :reject, after: :recalculate_book_rating do
       transitions from: %i(unmoderated approved), to: :rejected
     end
   end

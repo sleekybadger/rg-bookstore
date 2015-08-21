@@ -1,6 +1,6 @@
 class Settings::AddressController < ApplicationController
-  before_filter :authenticate_user!
 
+  before_action :authenticate_user!
   before_action :set_countries
 
   private

@@ -1,7 +1,6 @@
-%nav
-  %ul
-    - wizard_progress.each do |s|
-      %li{ class: s[:classes] }
-        = link_to s[:title], wizard_path(s[:name])
+%ul.nav.nav-pills
+  - wizard_progress.each do |s|
+    %li{class: s[:classes]}
+      = link_to t("checkout.#{s[:name].to_s}"), wizard_path(s[:name])
 
 = yield

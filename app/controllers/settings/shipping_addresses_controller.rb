@@ -1,5 +1,7 @@
 class Settings::ShippingAddressesController < Settings::AddressController
+
   before_filter :create_shipping_address, only: :create
+
   load_and_authorize_resource :shipping_address, through: :current_user, singleton: true, param_method: :shipping_params
 
   def show
@@ -45,4 +47,5 @@ class Settings::ShippingAddressesController < Settings::AddressController
     def create_shipping_address
       @shipping_address = current_user.build_shipping_address(shipping_params)
     end
+
 end

@@ -8,5 +8,6 @@ class BooksController < ApplicationController
 
   def show
     @order_item = OrderItem.new
+    @user = current_user || User.new
   end
 end

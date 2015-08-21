@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  get '/search', to: 'home#search', as: 'search'
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
@@ -7,7 +8,8 @@ Rails.application.routes.draw do
     path: 'auth',
     skip: %i(registrations),
     controllers: {
-      sessions: 'auth/sessions'
+      sessions: 'auth/sessions',
+      omniauth_callbacks: 'auth/omniauth_callbacks'
     }
   )
 
@@ -16,21 +18,44 @@ Rails.application.routes.draw do
     post 'auth/sign_up', to: 'auth/registrations#create', as: :user_registration
   end
 
+  resources :authors, only: %i(show index)
+
   resources :categories, only: %i(show)
+
   resources :books, only: %i(show index) do
     resources :reviews, only: %i(new create index)
-    resource :order, only: [] do
+
+    resource :order, only: :none do
       post 'add_item'
       delete 'remove_item'
     end
+
+    resource :wishes, only: %i(create destroy)
+  end
+
+  resources :users, only: :none do
+    resources :wishes, only: %i(index)
   end
 
   resource :cart, only: %i(show) do
-    resources :checkouts, only: %i(show update)
+    resources :checkout, only: %i(show update)
+
+    get 'complete'
   end
 
   namespace :settings do
-    resource :billing_address, only: %i(create show update destroy)
-    resource :shipping_address, only: %i(create show update destroy)
+    resource :billing_address, :shipping_address, except: %i(new edit)
+
+    resource :profile, except: %i(new edit create) do
+      put 'update_info'
+      put 'update_password'
+    end
+
+    resource :history, only: :none do
+      get 'in_queue'
+      get 'in_delivery'
+      get 'delivered'
+      get 'canceled'
+    end
   end
 end

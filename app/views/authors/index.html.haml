@@ -1,0 +1,15 @@
+%h1.page-header= t('author.names')
+
+- if @authors.nil? || @authors.empty?
+  .authors-empty
+    = t('author.authors_empty')
+- else
+  %ul.authors-list.list-unstyled.clearfix
+    - @authors.each do |a|
+      %li.text-center.pull-left
+        %a{href: author_path(a)}
+          %img{src: a.portrait.thumb}
+          %div= a
+  .text-center
+    = paginate @authors
+    = page_entries_info @authors

@@ -12,7 +12,7 @@ class CreditCardExpireValidator < ActiveModel::Validator
     expire = Date.new(record.expiration_year, record.expiration_month, now.day)
 
     if expire < now
-      record.errors.add(:expiration_date, 'Expiration date can not be in the past')
+      record.errors.add(:expiration_date, 'can not be in the past')
     end
   end
 end

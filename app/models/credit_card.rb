@@ -12,8 +12,7 @@ class CreditCard < ActiveRecord::Base
               less_than_or_equal_to: 12
             }
   validates :expiration_year, numericality: {
-              only_integer: true,
-              greater_than_or_equal_to: Time.now.year
+              only_integer: true
             }
 
   def expiration_date

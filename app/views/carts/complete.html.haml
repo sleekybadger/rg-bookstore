@@ -1,0 +1,14 @@
+= render partial: 'carts/items', locals: {items: @order.order_items, edit: false}
+
+%hr.top-buffer
+
+= render partial: 'helpers/order_view', locals: { order: @order, is_edit: false }
+
+%hr.top-buffer
+
+= render partial: 'checkout/order_summary', locals:  { order: @order }
+
+%hr.top-buffer
+
+.text-center
+  = link_to t('checkout.go_home'), root_path, class: 'btn btn-primary btn-lg'

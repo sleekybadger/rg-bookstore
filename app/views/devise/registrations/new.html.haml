@@ -1,29 +1,25 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
+.text-center
+  %a{ href: user_omniauth_authorize_path(:facebook) }
+    %img{ src: '/assets/fb-icon.jpg' }
+
+= render partial: '/helpers/validation_errors', locals: { suspect: resource }
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'auth-form'}) do |f|
+  .form-group
     = f.label :first_name
-    %br
-    = f.text_field :first_name, autofocus: true
-  .field
+    = f.text_field :first_name, autofocus: true, class: 'form-control'
+  .form-group
     = f.label :last_name
-    %br
-    = f.text_field :last_name
-  .field
+    = f.text_field :last_name, class: 'form-control'
+  .form-group
     = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .field
+    = f.email_field :email, class: 'form-control'
+  .form-group
     = f.label :password
     - if @minimum_password_length
-      %em
+      %small
         (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "off"
-  .field
+    = f.password_field :password, autocomplete: 'off', class: 'form-control'
+  .form-group
     = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+    = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+  = f.button t('auth.sign_up'), class: 'btn btn-primary btn-block btn-lg'

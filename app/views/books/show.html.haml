@@ -15,8 +15,7 @@
       .price
         %strong.caption
           = t 'book.price'
-        = @book.price
-        = t 'currancy'
+        #{beauty_price(@book.price)}#{t('currancy')}
 
       .rating
         - if @book.average_rating > 0
@@ -29,6 +28,16 @@
           .form-group
             = f.number_field :quantity, value: 1, min: 1, class: 'form-control'
           = f.button t('book.add_to_cart'), class: 'btn btn-primary'
+
+      .wish-list
+        - if @user.wishes.exists? @book
+          = form_tag book_wishes_path(@book), method: :delete do
+            .form-group
+              = button_tag t('wishes.remove'), name: nil, class: 'btn btn-warning'
+        - else
+          = form_tag book_wishes_path(@book) do
+            .form-group
+              = button_tag t('wishes.add'), name: nil, class: 'btn btn-success'
 
       .short-description
         = @book.short_description
