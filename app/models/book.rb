@@ -42,12 +42,12 @@ class Book < ActiveRecord::Base
   end
 
   def calculate_average_rating
-    if reviews.approved.empty?
-      0
-    else
+    begin
       rating = reviews.approved.map(&:rating).inject(&:+)
       rating = rating / reviews.approved.size
       rating.floor
+    rescue
+      0
     end
   end
 
