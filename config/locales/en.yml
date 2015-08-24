@@ -15,7 +15,7 @@ en:
     results_for: "Results for"
   auth:
     sign_in: "Sign in"
-    sign_up: "Sign Up"
+    sign_up: "Sign up"
     sign_out: "Logout"
     sign_in_first: "You need to be authorized to continue"
     access_denied: "You do not have permission to access this url"

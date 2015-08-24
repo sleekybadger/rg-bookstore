@@ -7,7 +7,7 @@
   - if current_p? update_info_settings_profile_path
     = render partial: '/helpers/validation_errors', locals: { suspect: @user }
 
-  = form_for @user, method: :put, url: update_info_settings_profile_path do |f|
+  = form_for @user, method: :put, url: update_info_settings_profile_path, html: { class: 'update-user-info' } do |f|
     .form-group
       = f.label :first_name
       = f.text_field :first_name, autofocus: true, class: 'form-control'
@@ -25,7 +25,7 @@
   - if current_p? update_password_settings_profile_path
     = render partial: '/helpers/validation_errors', locals: { suspect: @user }
 
-  = form_for @user, method: :put, url: update_password_settings_profile_path do |f|
+  = form_for @user, method: :put, url: update_password_settings_profile_path, html: { class: 'update-user-pass' } do |f|
     .form-group
       = f.label :current_password
       = f.password_field :current_password, class: 'form-control', autocomplete: 'off'
@@ -38,7 +38,7 @@
     = f.button t('save'), class: 'btn btn-primary'
 
   %h3= t('profile.destroy_name')
-  = form_tag(settings_profile_path, {method: :delete}) do
+  = form_tag(settings_profile_path, {method: :delete, class: 'delete-account'}) do
     .checkbox
       %label
         = check_box_tag :want_to_delete, nil

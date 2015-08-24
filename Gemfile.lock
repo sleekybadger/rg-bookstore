@@ -63,6 +63,12 @@ GEM
     builder (3.2.2)
     byebug (6.0.2)
     cancancan (1.12.0)
+    capybara (2.4.4)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -274,6 +280,8 @@ GEM
     wysiwyg-rails (1.2.8)
       font-awesome-rails (>= 4.3.0.0)
       railties (>= 3.2, < 5.0)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -282,6 +290,7 @@ DEPENDENCIES
   aasm
   byebug
   cancancan
+  capybara
   carrierwave
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
