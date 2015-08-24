@@ -17,6 +17,7 @@ class Ability
         can :create, BillingAddress unless user.billing_address.present? && user.billing_address.id
         can :create, ShippingAddress unless user.shipping_address.present? && user.shipping_address.id
         can :ud, User, id: user.id
+        can :read, User
 
         can :add_review_to_book, Book do |book|
           true unless user.is_left_review?(book)
@@ -27,7 +28,6 @@ class Ability
     can :read, Book
     can :read, Category
     can :read, Author
-    can :read, User
   end
 
 end

@@ -24,6 +24,13 @@ RSpec.describe Author, type: :model do
     end
   end
 
+  describe '.search' do
+    it 'should return authors where first_name + last_name match pattern' do
+      author = FactoryGirl.create(:author, first_name: 'john', last_name: 'dou')
+      expect(Author.search(author.first_name)).to eq [author]
+    end
+  end
+
   describe '#to_s' do
     it 'should return #first_name + #last_name' do
       expect(author.to_s).to eq("#{author.first_name} #{author.last_name}")

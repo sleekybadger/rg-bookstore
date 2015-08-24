@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
       @order_item.quantity += order_item_params[:quantity].to_i
     else
       @order_item = OrderItem.new(order_item_params) do | item |
-        item.order = @current_order
+        item.order = current_order
         item.book = @book
       end
     end
@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
 
     def set_book_and_order_item
       @book = Book.find(params[:book_id])
-      @order_item = @current_order.order_items.find_by(book: @book)
+      @order_item = current_order.order_items.find_by(book: @book)
     end
 
 end

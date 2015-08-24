@@ -2,6 +2,10 @@ module CurrentOrder
 
   extend ActiveSupport::Concern
 
+  def current_order
+    @current_order
+  end
+
   private
 
     def set_current_order

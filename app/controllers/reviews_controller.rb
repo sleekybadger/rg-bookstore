@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
   end
 
   def index
-    @reviews = Review.where(book: @book, status: Review.statuses[:approved]).page(params[:page])
+    @reviews = @book.reviews.approved.page(params[:page])
   end
 
   def create

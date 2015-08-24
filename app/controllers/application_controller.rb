@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   include CurrentOrder
 
   protect_from_forgery with: :exception
@@ -11,12 +10,7 @@ class ApplicationController < ActionController::Base
       not_found
     end
 
-    if user_signed_in?
-      redirect_to '/', alert: t('auth.access_denied')
-    else
-      redirect_to new_user_session_path, alert: t('auth.sign_in_first')
-    end
-
+    redirect_to '/', alert: t('auth.access_denied')
   end
 
   def not_found

@@ -17,11 +17,11 @@ RSpec.describe CreditCard, type: :model do
 
     it { expect(credit_card).to validate_numericality_of(:expiration_month).only_integer.is_greater_than_or_equal_to(1).is_less_than_or_equal_to(12) }
 
-    it { expect(credit_card).to validate_numericality_of(:expiration_year).only_integer.is_greater_than_or_equal_to(Time.now.year) }
+    it { expect(credit_card).to validate_numericality_of(:expiration_year).only_integer }
 
     it 'is invalid with expiration date less then today' do
-      month = Time.now.month - 1
-      year = Time.now.year
+      month = Time.now.month
+      year = Time.now.year - 1
 
       expect(FactoryGirl.build :credit_card, expiration_month: month, expiration_year: year).not_to be_valid
     end

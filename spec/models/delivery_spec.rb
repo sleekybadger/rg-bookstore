@@ -18,10 +18,4 @@ RSpec.describe Delivery, type: :model do
       expect(delivery.to_s).to eq(delivery.name)
     end
   end
-
-  describe '#beauty_price' do
-    it 'returns #price, with two signs after comma' do
-      expect(FactoryGirl.build(:delivery, price: 1.2).beauty_price).to eq('1.20')
-    end
-  end
 end

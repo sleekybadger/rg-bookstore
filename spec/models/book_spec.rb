@@ -18,23 +18,26 @@ RSpec.describe Book, type: :model do
     it { expect(book).to have_many(:order_items).dependent(:destroy) }
   end
 
-  context 'Scopes' do
-    describe '.best_sellers' do
-      it 'should return best selling books' do
-        best_seller_order = FactoryGirl.create :order, state: 3
-        best_seller_item = FactoryGirl.create :order_item, book: book, order: best_seller_order
-
-        best_seller_order.order_items.reload
-
-        expect(Book.best_sellers.first.id).to eq(best_seller_item.book_id)
-      end
-    end
-  end
-
-  describe 'Before save' do
+  context 'Before save' do
     it 'should capitalize title' do
       book = FactoryGirl.create(:book, title: 'treasure island')
       expect(book.title).to eq 'Treasure Island'
+    end
+  end
+
+  describe '.search' do
+    it 'should return books where title match pattern' do
+      book = FactoryGirl.create(:book, title: 'yoyo')
+      expect(Book.search(book.title)).to eq [book]
+    end
+  end
+
+  describe '.best_sellers' do
+    it 'should return books where title match pattern' do
+      order_items_one = FactoryGirl.create(:order_item, quantity: 5)
+      order_items_two = FactoryGirl.create(:order_item, quantity: 15)
+
+      expect(Book.best_sellers).to eq [order_items_two.book, order_items_one.book]
     end
   end
 
@@ -45,10 +48,10 @@ RSpec.describe Book, type: :model do
   end
 
   describe '#calculate_average_rating' do
-    let(:book) { FactoryGirl.create :book_with_reviews }
+    let(:book) { FactoryGirl.create :book_with_approved_reviews }
 
     it 'should return floor average rating for book review#rating' do
-      rating = (book.reviews.map(&:rating).inject(&:+) / book.reviews.size).floor
+      rating = (book.reviews.approved.map(&:rating).inject(&:+) / book.reviews.approved.size).floor
 
       expect(book.calculate_average_rating).to eq rating
     end
@@ -60,7 +63,7 @@ RSpec.describe Book, type: :model do
     it 'should change book#average_rating' do
       average_rating = book.average_rating
 
-      FactoryGirl.create :review, book: book, rating: 5
+      FactoryGirl.create :review, :approved, book: book, rating: 5
 
       book.reviews.reload
 

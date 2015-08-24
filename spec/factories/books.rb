@@ -23,5 +23,13 @@ FactoryGirl.define do
         evaluator.items_count.times.map { FactoryGirl.create(:review, :low_rating, book: book) }
       end
     end
+
+    factory :book_with_approved_reviews do
+      transient { items_count 4 }
+
+      after :create do |book, evaluator|
+        evaluator.items_count.times.map { FactoryGirl.create(:review, :approved, book: book) }
+      end
+    end
   end
 end

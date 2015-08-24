@@ -77,4 +77,14 @@ RSpec.describe Order, type: :model do
       expect(order.items_total_price).to eq(sum)
     end
   end
+
+  describe '#total_price' do
+    let(:order) { FactoryGirl.create :order_with_items }
+
+    it 'should return sum of #items_total_price + #delivery.price' do
+      sum = order.items_total_price + order.delivery.price
+
+      expect(order.total_price).to eq(sum.round(2))
+    end
+  end
 end

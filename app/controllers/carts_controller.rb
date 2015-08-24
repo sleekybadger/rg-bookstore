@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+
   def show
   end
 
@@ -9,4 +10,5 @@ class CartsController < ApplicationController
 
     @order = Order.find(flash[:order_id])
   end
+
 end

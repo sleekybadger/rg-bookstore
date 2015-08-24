@@ -16,17 +16,13 @@ class Book < ActiveRecord::Base
   validates :full_description, length: { maximum: 2000 }
 
   scope :best_sellers, -> (num = 3) do
-    ids = OrderItem
-            .select('book_id, sum(quantity) as quantity')
-            .joins(:order)
-            .where(orders: {state: Order.states[:delivered]})
-            .group(:book_id)
-            .order('quantity')
-            .offset(0)
-            .limit(num)
-            .map(&:book_id)
-
-    where(id: ids)
+    Book
+      .select('books.*, sum(order_items.quantity) as quantity')
+      .joins(:order_items)
+      .group(:id)
+      .order('quantity DESC')
+      .offset(0)
+      .limit(num)
   end
 
   scope :search, -> (query) do
