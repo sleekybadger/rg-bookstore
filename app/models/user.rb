@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   end
 
   def is_left_review? (book)
-    if book.reviews.find_by(user: self)
+    if book.reviews.approved.find_by(user: self) || book.reviews.unmoderated.find_by(user: self)
       true
     else
       false

@@ -32,7 +32,7 @@ class Settings::ProfilesController < ApplicationController
   def destroy
     respond_to do |format|
       unless params[:want_to_delete]
-        format.html { redirect_to({action: 'show'}, alert: t('profile.destroy_need_confirm')) }
+        format.html { redirect_to settings_profile_path, alert: t('profile.destroy_need_confirm') }
       else
         if @user.destroy
           sign_out

@@ -19,7 +19,6 @@ class CheckoutController < ApplicationController
       when :wicked_finish
         wizard_finish
       else
-        not_found
     end
 
     render_wizard
@@ -36,10 +35,9 @@ class CheckoutController < ApplicationController
       when :confirm
         place_order
       else
-        not_found
     end
 
-    render_wizard @current_order
+    render_wizard current_order
   end
 
   private
@@ -47,19 +45,19 @@ class CheckoutController < ApplicationController
     def address
       @countries = Country.all
 
-      unless @current_order.billing_address
+      unless current_order.billing_address
         if @user.billing_address
-          @current_order.build_billing_address(@user.billing_address.dup.attributes)
+          current_order.build_billing_address(@user.billing_address.dup.attributes)
         else
-          @current_order.build_billing_address
+          current_order.build_billing_address
         end
       end
 
-      unless @current_order.shipping_address
+      unless current_order.shipping_address
         if @user.shipping_address
-          @current_order.build_shipping_address(@user.shipping_address.dup.attributes)
+          current_order.build_shipping_address(@user.shipping_address.dup.attributes)
         else
-          @current_order.build_shipping_address
+          current_order.build_shipping_address
         end
       end
     end
@@ -73,7 +71,7 @@ class CheckoutController < ApplicationController
         attributes[:shipping_address_attributes] = attributes[:billing_address_attributes]
       end
 
-      @current_order.assign_attributes(attributes)
+      current_order.assign_attributes(attributes)
     end
 
     def delivery
@@ -82,15 +80,15 @@ class CheckoutController < ApplicationController
 
     def update_delivery
       @deliveries = Delivery.all
-      @current_order.assign_attributes(delivery_params)
+      current_order.assign_attributes(delivery_params)
     end
 
     def payment
-      @current_order.build_credit_card unless @current_order.credit_card
+      current_order.build_credit_card unless current_order.credit_card
     end
 
     def update_payment
-      @current_order.assign_attributes(card_params)
+      current_order.assign_attributes(card_params)
     end
 
     def confirm
@@ -114,17 +112,17 @@ class CheckoutController < ApplicationController
     end
 
     def place_order
-      @current_order.place_order!
+      current_order.place_order!
 
-      unless @current_order.in_queue?
+      unless current_order.in_queue?
         jump_to(:confirm) and return
       end
 
-      @current_order.user = @user
+      current_order.user = @user
     end
 
     def wizard_finish
-      flash[:order_id] = @current_order.id
+      flash[:order_id] = current_order.id
       flash[:notice] = t('checkout.order_created')
 
       create_current_order
@@ -135,7 +133,7 @@ class CheckoutController < ApplicationController
     end
 
     def check_cart_items
-      not_found if @current_order.order_items.empty?
+      not_found if current_order.order_items.empty?
     end
 
     def set_user
@@ -145,11 +143,11 @@ class CheckoutController < ApplicationController
     def step_completed?(step)
       case step
         when :address
-          @current_order.billing_address && @current_order.shipping_address
+          current_order.billing_address && current_order.shipping_address
         when :delivery
-          @current_order.delivery
+          current_order.delivery
         when :payment
-          @current_order.credit_card
+          current_order.credit_card
         else
           false
       end
