@@ -8,3 +8,6 @@ script:
   - bundle exec rspec
 before_script:
   - psql -c 'create database bookstore_test' -U postgres
+addons:
+  code_climate:
+    repo_token: fa7ebde309bf78458b68df47ada5537648ccaafdcbce7b37c79d27c0df300daa

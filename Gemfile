@@ -45,6 +45,7 @@ group :test do
   gem 'database_cleaner'
   gem 'fuubar'
   gem 'shoulda-matchers'
+  gem 'codeclimate-test-reporter'
 end
 
 ruby '2.2.1'
