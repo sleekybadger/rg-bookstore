@@ -6,3 +6,5 @@ env:
 script:
   - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rspec
+before_script:
+  - psql -c 'create database bookstore_test' -U postgres
