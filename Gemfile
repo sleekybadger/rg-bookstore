@@ -30,7 +30,7 @@ gem 'mini_magick'
 gem 'kaminari'
 gem 'aasm'
 gem 'wicked'
-
+gem 'twitter-bootstrap-rails'
 gem 'rails_12factor', group: :production
 
 group :development, :test do

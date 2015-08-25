@@ -16,14 +16,14 @@ module ApplicationHelper
     @current_order.order_items
   end
 
-  def glyph(*names)
+  def glyph_icon(*names)
     content_tag :i, nil, class: names.map{|name| "glyphicon glyphicon-#{name.to_s.gsub('_','-')}" }
   end
 
   def shopping_cart_link
     size = cart_items.empty? ? t('cart.emprty_short') : " (#{cart_items.size} - #{@current_order.items_total_price}#{t('currancy')})"
 
-    link_to glyph(:shopping_cart) + size, cart_path
+    link_to glyph_icon(:shopping_cart) + size, cart_path
   end
 
   def current_p?(*paths)

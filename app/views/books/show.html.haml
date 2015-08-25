@@ -20,7 +20,7 @@
       .rating
         - if @book.average_rating > 0
           - @book.average_rating.times do
-            = glyph(:star)
+            = glyph_icon(:star)
 
       .add-to-cart
         = render partial: '/helpers/validation_errors', locals: { suspect: @order_item }
@@ -67,7 +67,7 @@
         %li.review
           .r
             - review.rating.times do
-              = glyph(:star)
+              = glyph_icon(:star)
           .by
             = t 'review.left_by', name: review.user
           .note

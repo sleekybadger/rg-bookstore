@@ -16,7 +16,7 @@
       %li.review
         .r
           - review.rating.times do
-            = glyph(:star)
+            = glyph_icon(:star)
         .by
           = t 'review.left_by', name: review.user
         .note
