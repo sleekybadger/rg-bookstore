@@ -2,6 +2,7 @@
   <dictionary name="lf">
     <words>
       <w>aasm</w>
+      <w>kaminari</w>
       <w>omniauth</w>
       <w>paginatable</w>
       <w>unmoderated</w>
