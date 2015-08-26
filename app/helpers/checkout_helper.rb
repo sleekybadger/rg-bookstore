@@ -3,7 +3,7 @@ module CheckoutHelper
   def wizard_progress
     out = []
 
-    wizard_steps.collect do |s|
+    wizard_steps.map do |s|
       finished = past_step?(s)
 
       classes = 'step'

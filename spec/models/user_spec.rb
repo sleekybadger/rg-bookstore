@@ -21,6 +21,29 @@ RSpec.describe User, type: :model do
     it { expect(user).to have_many(:orders) }
   end
 
+  describe '.from_omniauth' do
+    context 'when user in database' do
+      it 'should return user' do
+        user = FactoryGirl.create :user, provider: 'facebook', uid: 1
+        auth = double('Auth', provider: 'facebook', uid: 1)
+
+        expect(User.from_omniauth(auth)).to eq(user)
+      end
+    end
+
+    context 'when user not in database' do
+      it 'should create new user from info' do
+        old_count = User.count
+        info = double('Info', email: 'johndou@gmail.com', first_name: 'john', last_name: 'dou')
+        auth = double('Auth', provider: 'facebook', uid: 1, info: info)
+
+        User.from_omniauth(auth)
+
+        expect(User.count).to eq(old_count + 1)
+      end
+    end
+  end
+
   describe '#to_s' do
     it 'should return #fist_name + #last_name' do
       expect(user.to_s).to eq("#{user.first_name} #{user.last_name}")
