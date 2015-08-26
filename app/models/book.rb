@@ -17,10 +17,10 @@ class Book < ActiveRecord::Base
 
   scope :best_sellers, -> (num = 3) do
     Book
-      .select('books.*, sum(order_items.quantity) as quantity')
+      .select('books.*, sum(order_items.quantity) as q')
       .joins(:order_items)
       .group(:id)
-      .order('quantity DESC')
+      .order('q DESC')
       .offset(0)
       .limit(num)
   end

@@ -1,4 +1,6 @@
-- if @best_sellers
+- if @best_sellers.empty?
+  %h3= t('home.no_popular')
+- else
   .carousel#best-sellers-carousel.slide{'data-ride': 'carousel'}
     .carousel-inner{'role': 'listbox'}
       - @best_sellers.each_with_index do |item, index|
@@ -17,6 +19,3 @@
 
     %a.right.carousel-control{href: '#best-sellers-carousel', role: 'button', 'data-slide': 'next'}
       = glyph_icon(:chevron_right)
-- else
-  %h3
-    Ooppps there is no popular books

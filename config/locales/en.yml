@@ -13,6 +13,8 @@ en:
     by_books: "by books"
     by_authors: "by authors"
     results_for: "Results for"
+  home:
+    no_popular: "Oooops we do not have any bestsellers"
   auth:
     sign_in: "Sign in"
     sign_up: "Sign up"
