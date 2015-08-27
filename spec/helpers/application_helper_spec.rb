@@ -47,4 +47,34 @@ RSpec.describe ApplicationHelper, type: :helper do
     it { expect(helper.current_p?('/yo')).to be_truthy }
     it { expect(helper.current_p?('/pam')).to be_falsey }
   end
+
+  describe '.resource_name' do
+    it { expect(helper.resource_name).to eq(:user) }
+  end
+
+  describe '.resource' do
+    let!(:user) { User.new }
+
+    before { allow(User).to receive(:new) { user } }
+
+    it { expect(helper.resource).to eq(user) }
+    it 'should not assigns @resource, if there value' do
+      assign(:resource, 'yo')
+
+      expect(helper.resource).not_to eq(user)
+    end
+  end
+
+  describe '.devise_mapping' do
+    let!(:mapping) { double('Mapping') }
+
+    before { allow(Devise).to receive(:mappings) { { user: mapping } } }
+
+    it { expect(helper.devise_mapping).to eq(mapping) }
+    it 'should not assigns @devise_mapping, if there value' do
+      assign(:devise_mapping, 'yo')
+
+      expect(helper.devise_mapping).not_to eq(mapping)
+    end
+  end
 end
