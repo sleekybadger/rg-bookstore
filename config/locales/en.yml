@@ -13,6 +13,7 @@ en:
     by_books: "by books"
     by_authors: "by authors"
     results_for: "Results for"
+    title: "Search"
   home:
     no_popular: "Oooops we do not have any bestsellers"
   auth:
@@ -25,6 +26,7 @@ en:
     facebook: "You are successfully authorized with your facebook account"
   checkout:
     name: "Checkout"
+    title: "Checkout"
     fill_address: "Fill addresses info before confirming an order"
     fill_delivery: "Fill delivery info before confirming an order"
     fill_payment: "Fill payment info before confirming an order"
@@ -48,6 +50,7 @@ en:
     emprty_short: "is empty"
     empty: "Your cart is empty"
     remove: "Remove"
+    title: "Cart"
     fields:
       title: "Title"
       quantity: "Quantity"
@@ -58,6 +61,8 @@ en:
     author: "Author"
     rating: "Rating"
     add_to_cart: "Add to cart"
+    title_list: "Shop"
+    title_single: "%{book}"
   review:
     review: "Review"
     reviews: "Reviews"
@@ -112,6 +117,8 @@ en:
     no_books: "There is no books available in our store. Coming soon..."
     books: "Books written by %{author} in our store"
     authors_empty: "There is no authors in our store."
+    title_single: "%{author}"
+    title_list: "Authors"
   wishes:
     name: "Wishes"
     already_added: "Book %{book} already added in your wish list"
@@ -125,6 +132,10 @@ en:
     user_empty: "User %{user} did not add anything in his wish list"
     not_exists: "Book %{book} is not exists in your wish list"
     removed: "Book %{book} successfully removed from your wish list"
+  complete:
+    title: "Order complete"
+  category:
+    title: "%{category}"
   save: "Save"
   destroy: "Delete"
   activerecord:

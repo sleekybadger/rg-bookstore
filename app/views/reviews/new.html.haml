@@ -1,4 +1,6 @@
-%h1= t 'review.review_for', name: @book
+- title t('review.review_for', name: @book)
+
+%h1= t('review.review_for', name: @book)
 
 = render partial: '/helpers/validation_errors', locals: { suspect: @review }
 = form_for @review, url: book_reviews_path(@book) do |f|
