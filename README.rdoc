@@ -26,3 +26,20 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+== RubyGarage Bookstore
+{<img src="https://codeclimate.com/github/lukyanovfedor/rg-bookstore/badges/gpa.svg" />}[https://codeclimate.com/github/lukyanovfedor/rg-bookstore]
+{<img src="https://codeclimate.com/github/lukyanovfedor/rg-bookstore/badges/coverage.svg" />}[https://codeclimate.com/github/lukyanovfedor/rg-bookstore/coverage]
+{<img src="https://travis-ci.org/lukyanovfedor/rg-bookstore.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/lukyanovfedor/rg-bookstore]
+
+== Info
+Some core gems usage:
+
+* Devise
+* CanCanCan
+* RSpec
+* Rails admin
+* Carrierwave
+* Kaminari
+* AASM
+* Wicked
