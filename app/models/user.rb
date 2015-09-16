@@ -3,11 +3,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :rememberable, :validatable
   devise :omniauthable, omniauth_providers: %i(facebook)
 
-  has_one :billing_address, as: :addressable, dependent: :destroy
-  has_one :shipping_address, as: :addressable, dependent: :destroy
+  # has_one :billing_address, as: :addressable, dependent: :destroy
+  # has_one :shipping_address, as: :addressable, dependent: :destroy
 
   has_many :reviews, dependent: :destroy
-  has_many :orders, dependent: :nullify
+  # has_many :orders, dependent: :nullify
 
   has_and_belongs_to_many :wishes, class_name: 'Book', join_table: 'users_wishes'
 

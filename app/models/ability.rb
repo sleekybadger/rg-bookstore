@@ -13,9 +13,9 @@ class Ability
         can :dashboard
         can :manage, :all
       else
-        can :rud, [BillingAddress, ShippingAddress], addressable_type: 'User', addressable_id: user.id
-        can :create, BillingAddress unless user.billing_address.present? && user.billing_address.id
-        can :create, ShippingAddress unless user.shipping_address.present? && user.shipping_address.id
+        # can :rud, [BillingAddress, ShippingAddress], addressable_type: 'User', addressable_id: user.id
+        # can :create, BillingAddress unless user.billing_address.present? && user.billing_address.id
+        # can :create, ShippingAddress unless user.shipping_address.present? && user.shipping_address.id
         can :ud, User, id: user.id
         can :read, User
 

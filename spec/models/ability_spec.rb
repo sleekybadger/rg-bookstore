@@ -15,23 +15,23 @@ RSpec.describe Ability, type: :model do
   context 'user is logged' do
     let(:user) { FactoryGirl.create :user }
 
-    it { expect(ability).to be_able_to(:read, user.build_billing_address) }
-    it { expect(ability).to be_able_to(:update, user.build_billing_address) }
-    it { expect(ability).to be_able_to(:destroy, user.build_billing_address) }
-    it { expect(ability).to be_able_to(:create, BillingAddress) }
-    it 'should not to be able to create BillingAddress' do
-      FactoryGirl.create :billing_address, addressable: user
-      expect(ability).not_to be_able_to(:create, BillingAddress)
-    end
+    # it { expect(ability).to be_able_to(:read, user.build_billing_address) }
+    # it { expect(ability).to be_able_to(:update, user.build_billing_address) }
+    # it { expect(ability).to be_able_to(:destroy, user.build_billing_address) }
+    # it { expect(ability).to be_able_to(:create, BillingAddress) }
+    # it 'should not to be able to create BillingAddress' do
+    #   FactoryGirl.create :billing_address, addressable: user
+    #   expect(ability).not_to be_able_to(:create, BillingAddress)
+    # end
 
-    it { expect(ability).to be_able_to(:read, user.build_shipping_address) }
-    it { expect(ability).to be_able_to(:update, user.build_shipping_address) }
-    it { expect(ability).to be_able_to(:destroy, user.build_shipping_address) }
-    it { expect(ability).to be_able_to(:create, ShippingAddress) }
-    it 'should not to be able to create BillingAddress' do
-      FactoryGirl.create :shipping_address, addressable: user
-      expect(ability).not_to be_able_to(:create, ShippingAddress)
-    end
+    # it { expect(ability).to be_able_to(:read, user.build_shipping_address) }
+    # it { expect(ability).to be_able_to(:update, user.build_shipping_address) }
+    # it { expect(ability).to be_able_to(:destroy, user.build_shipping_address) }
+    # it { expect(ability).to be_able_to(:create, ShippingAddress) }
+    # it 'should not to be able to create ShippingAddress' do
+    #   FactoryGirl.create :shipping_address, addressable: user
+    #   expect(ability).not_to be_able_to(:create, ShippingAddress)
+    # end
 
     it { expect(ability).to be_able_to(:update, user) }
     it { expect(ability).to be_able_to(:destroy, user) }

@@ -4,18 +4,6 @@ RSpec.feature 'Books', type: :feature do
   given(:book) { FactoryGirl.create :book }
   given(:user) { FactoryGirl.create :user }
 
-  describe 'Add book to cart' do
-    scenario 'An user can add book to cart' do
-      visit(book_path(book))
-
-      click_button('Add to cart')
-
-      visit(cart_path)
-
-      expect(page).to have_content(book.title)
-    end
-  end
-
   describe 'Add book to wish list' do
     scenario 'A logged user can add book to wishlist' do
       create_session_for user

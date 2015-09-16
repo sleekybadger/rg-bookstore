@@ -29,13 +29,13 @@ end
 
 RSpec.describe 'books/show', type: :view do
   let(:book) { FactoryGirl.create :book }
-  let(:order_item) { FactoryGirl.create :order_item }
+  # let(:order_item) { FactoryGirl.create :order_item }
   let(:user) { FactoryGirl.create :user }
   let!(:review) { FactoryGirl.create :review, :approved, book: book, user: user }
 
   before do
     assign(:book, book)
-    assign(:order_item, order_item)
+    # assign(:order_item, order_item)
     assign(:user, user)
     allow(view).to receive(:current_user) { user }
   end

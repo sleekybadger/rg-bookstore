@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-
   load_and_authorize_resource
 
   def index
@@ -8,8 +7,7 @@ class BooksController < ApplicationController
   end
 
   def show
-    @order_item = OrderItem.new
+    # @order_item = OrderItem.new
     @user = current_user || User.new
   end
-
 end

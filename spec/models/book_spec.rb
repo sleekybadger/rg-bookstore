@@ -15,7 +15,7 @@ RSpec.describe Book, type: :model do
     it { expect(book).to belong_to(:author) }
     it { expect(book).to belong_to(:category) }
     it { expect(book).to have_many(:reviews).dependent(:destroy) }
-    it { expect(book).to have_many(:order_items).dependent(:destroy) }
+    # it { expect(book).to have_many(:order_items).dependent(:destroy) }
   end
 
   context 'Before save' do
@@ -32,14 +32,14 @@ RSpec.describe Book, type: :model do
     end
   end
 
-  describe '.best_sellers' do
-    it 'should return books where title match pattern' do
-      order_items_one = FactoryGirl.create(:order_item, quantity: 5)
-      order_items_two = FactoryGirl.create(:order_item, quantity: 15)
+  # describe '.best_sellers' do
+  #   it 'should return books where title match pattern' do
+  #     order_items_one = FactoryGirl.create(:order_item, quantity: 5)
+  #     order_items_two = FactoryGirl.create(:order_item, quantity: 15)
 
-      expect(Book.best_sellers).to eq [order_items_two.book, order_items_one.book]
-    end
-  end
+  #     expect(Book.best_sellers).to eq [order_items_two.book, order_items_one.book]
+  #   end
+  # end
 
   describe '#to_s' do
     it 'should return title' do

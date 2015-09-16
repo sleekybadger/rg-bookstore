@@ -1,5 +1,4 @@
 class AuthorsController < ApplicationController
-
   load_and_authorize_resource
 
   def index
@@ -8,5 +7,4 @@ class AuthorsController < ApplicationController
 
   def show
   end
-
 end

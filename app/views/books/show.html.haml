@@ -17,7 +17,7 @@
       .price
         %strong.caption
           = t 'book.price'
-        #{beauty_price(@book.price)}#{t('currancy')}
+        #{@book.price}#{t('currancy')}
 
       .rating
         - if @book.average_rating > 0
@@ -25,11 +25,6 @@
             = glyph_icon(:star)
 
       .add-to-cart
-        = render partial: '/helpers/validation_errors', locals: { suspect: @order_item }
-        = form_for @order_item, url: add_item_book_order_path(@book), html: { class: 'form-inline clearfix' } do |f|
-          .form-group
-            = f.number_field :quantity, value: 1, min: 1, class: 'form-control'
-          = f.button t('book.add_to_cart'), class: 'btn btn-primary'
 
       .wish-list
         - if @user.wishes.exists? @book

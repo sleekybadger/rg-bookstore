@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
-
   def index
-    @best_sellers = Book.best_sellers.to_a
+    # @best_sellers = Book.best_sellers.to_a
+    @best_sellers = []
   end
 
   def search
@@ -18,5 +18,4 @@ class HomeController < ApplicationController
           []
       end
   end
-
 end

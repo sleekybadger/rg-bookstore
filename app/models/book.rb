@@ -4,7 +4,7 @@ class Book < ActiveRecord::Base
   belongs_to :category
 
   has_many :reviews, dependent: :destroy
-  has_many :order_items, dependent: :destroy
+  # has_many :order_items, dependent: :destroy
 
   mount_uploader :cover, CoverUploader
 
