@@ -13,3 +13,5 @@
 /tmp
 /public/uploads/*
 /.idea
+
+.DS_Store
