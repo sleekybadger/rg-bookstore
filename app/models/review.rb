@@ -1,5 +1,4 @@
 class Review < ActiveRecord::Base
-
   include AASM
 
   RATING = 1..5
@@ -33,8 +32,7 @@ class Review < ActiveRecord::Base
 
   private
 
-    def recalculate_book_rating
-      self.book.calculate_average_rating!
-    end
-
+  def recalculate_book_rating
+    self.book.calculate_average_rating!
+  end
 end

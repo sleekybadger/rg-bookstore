@@ -1,5 +1,4 @@
 class Author < ActiveRecord::Base
-
   has_many :books, dependent: :nullify
 
   mount_uploader :portrait, PortraitUploader
@@ -20,5 +19,4 @@ class Author < ActiveRecord::Base
   scope :search, -> (query) do
     Author.where('concat_ws(\' \', lower(first_name), lower(last_name)) LIKE ?', "%#{query.to_s.downcase}%")
   end
-
 end

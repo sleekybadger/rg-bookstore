@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
-
   before_filter :authenticate_user!, except: :index
-  before_action :set_book
-  before_action :authorize_book, except: :index
+
+  load_resource :book
+  before_filter :authorize_book!, except: :index
 
   def new
     @review = Review.new
@@ -29,16 +29,11 @@ class ReviewsController < ApplicationController
 
   private
 
-    def set_book
-      @book = Book.find(params[:book_id])
-    end
+  def review_params
+    params.require(:review).permit(:note, :rating)
+  end
 
-    def review_params
-      params.require(:review).permit(:note, :rating)
-    end
-
-    def authorize_book
-      authorize! :add_review_to_book, @book
-    end
-
+  def authorize_book!
+    authorize! :add_review_to_book, @book
+  end
 end

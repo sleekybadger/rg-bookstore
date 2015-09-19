@@ -1,54 +1,36 @@
 class WishesController < ApplicationController
-
   before_filter :authenticate_user!
 
-  before_action :set_user
+  load_resource :book, only: :create
+  load_and_authorize_resource through: :current_user, only: :create
 
-  authorize_resource :user
+  load_and_authorize_resource only: :destroy
+
+  load_resource :user, only: :index
+  load_and_authorize_resource through: :user, only: :index
 
   def create
-    @book = Book.find(params[:book_id])
-
-    redirect_params = {}
-
-    if @user.wishes.exists? @book
-      redirect_params[:alert] = t('wishes.already_added', book: @book)
-    else
-      @user.wishes << @book
-
-      redirect_params[:notice] = t('wishes.added', book: @book)
-    end
+    @wish.book = @book
 
     respond_to do |format|
-      format.html { redirect_to user_wishes_path(@user), redirect_params }
+      if @wish.save
+        format.html { redirect_to book_path(@book), notice: t('wishes.added') }
+      else
+        format.html { redirect_to book_path(@book), alert: 'Not added' }
+      end
     end
   end
 
   def destroy
-    @book = Book.find(params[:book_id])
-
-    redirect_params = {}
-
-    if @user.wishes.exists? @book
-      @user.wishes.delete @book
-
-      redirect_params[:notice] = t('wishes.removed', book: @book)
-    else
-      redirect_params[:alert] = t('wishes.not_exists', book: @book)
-    end
-
     respond_to do |format|
-      format.html { redirect_to user_wishes_path(@user), redirect_params }
+      if @wish.destroy
+        format.html { redirect_to_back_or_root(notice: t('wishes.removed')) }
+      else
+        format.html { redirect_to_back_or_root(alert: 'Not added') }
+      end
     end
   end
 
   def index
   end
-
-  private
-
-    def set_user
-      @user = params[:user_id] ? User.find(params[:user_id]) : current_user
-    end
-
 end

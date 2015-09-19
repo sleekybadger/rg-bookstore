@@ -27,5 +27,9 @@ module Bookstore
       g.test_framework :rspec
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    Shopper.setup do |config|
+      config.set_order_on_each_request = true
+    end
   end
 end

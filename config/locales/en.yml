@@ -6,6 +6,8 @@ en:
   admin_label: "Admin"
   categories: "Categories"
   books: "Books"
+  cart:
+    short_empty: "Empty"
   search:
     name: "Search"
     no_result: "Sorry, no results matched for"
@@ -24,38 +26,7 @@ en:
     access_denied: "You do not have permission to access this url"
     remember_me: "Remember me"
     facebook: "You are successfully authorized with your facebook account"
-  checkout:
-    name: "Checkout"
-    title: "Checkout"
-    fill_address: "Fill addresses info before confirming an order"
-    fill_delivery: "Fill delivery info before confirming an order"
-    fill_payment: "Fill payment info before confirming an order"
-    address: "Address"
-    delivery: "Delivery"
-    payment: "Payment"
-    confirm: "Confirm"
-    complete: "Complete"
-    next: "Save and continue"
-    place_order: "Place order"
-    order_created: "You successfully created order"
-    go_home: "Go home"
-    use_billing: "Use billing address"
-    order_summary: "Order summary"
-    items_total: "Items total"
-    order_total: "Order total"
-    delivery_total: "Price for delivery"
   currancy: "$"
-  cart:
-    name: "Cart"
-    emprty_short: "is empty"
-    empty: "Your cart is empty"
-    remove: "Remove"
-    title: "Cart"
-    fields:
-      title: "Title"
-      quantity: "Quantity"
-      for_one: "Price for one"
-      for_all: "Price for all"
   book:
     price:  "Price"
     author: "Author"
@@ -122,7 +93,7 @@ en:
   wishes:
     name: "Wishes"
     already_added: "Book %{book} already added in your wish list"
-    added: "Book %{book} successfully added in your wish list"
+    added: "Successfully added in your wish list"
     add: "Add to wish list"
     remove: "Remove from wish list"
     my: "My wishes"
@@ -131,7 +102,7 @@ en:
     my_empty: "Your wish list is empty"
     user_empty: "User %{user} did not add anything in his wish list"
     not_exists: "Book %{book} is not exists in your wish list"
-    removed: "Book %{book} successfully removed from your wish list"
+    removed: "Successfully removed from your wish list"
   complete:
     title: "Order complete"
   category:

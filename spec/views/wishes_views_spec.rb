@@ -2,23 +2,30 @@ require 'rails_helper'
 
 RSpec.describe 'wishes/index', type: :view do
   let(:user) { FactoryGirl.create :user }
+  let(:foreign) { FactoryGirl.create :user }
   let(:book) { FactoryGirl.create :book }
+  let(:wish) { FactoryGirl.create :wish, user: user, book: book }
 
   before { assign(:user, user) }
 
   context 'current user wishes' do
-    before { allow(view).to receive(:can?).with(:update, user) { true } }
+    before do
+      allow(view).to receive(:current_user) { user }
+    end
 
     context 'wishes empty' do
-      before { render }
+      before do
+        allow(user).to receive(:wishes) { [] }
+        render
+      end
 
       it { expect(rendered).to have_selector('.wishes-for', text: t('wishes.my_empty')) }
     end
 
     context 'wishes not empty' do
       before do
-        user.wishes << book
-
+        allow(user).to receive(:wishes) { [wish] }
+        allow(view).to receive(:can?) { true }
         render
       end
 
@@ -28,18 +35,23 @@ RSpec.describe 'wishes/index', type: :view do
   end
 
   context 'foreign user wishes' do
-    before { allow(view).to receive(:can?).with(:update, user) { false } }
+    before do
+      allow(view).to receive(:current_user) { foreign }
+    end
 
     context 'wishes empty' do
-      before { render }
+      before do
+        allow(user).to receive(:wishes) { [] }
+        render
+      end
 
       it { expect(rendered).to have_selector('.wishes-for', text:  t('wishes.user_empty', user: user)) }
     end
 
     context 'wishes not empty' do
       before do
-        user.wishes << book
-
+        allow(user).to receive(:wishes) { [wish] }
+        allow(view).to receive(:can?) { false }
         render
       end
 
@@ -50,9 +62,9 @@ RSpec.describe 'wishes/index', type: :view do
 
   context 'with wishes' do
     before do
-      user.wishes << book
-      allow(view).to receive(:can?).with(:update, user) { false }
-
+      allow(view).to receive(:current_user) { user }
+      allow(user).to receive(:wishes) { [wish] }
+      allow(view).to receive(:can?) { true }
       render
     end
 

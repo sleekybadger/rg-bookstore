@@ -53,37 +53,6 @@ RSpec.describe BooksController, type: :controller do
         get :show, id: book.id
         expect(assigns(:book)).to eq book
       end
-
-      xit 'should assigns @order_item with new order_item' do
-        order_item = OrderItem.new
-
-        allow(OrderItem).to receive(:new).and_return(order_item)
-
-        get :show, id: book.id
-        expect(assigns(:order_item)).to eq order_item
-      end
-
-      context 'user logged' do
-        it 'should assigns @user with current user' do
-          user = FactoryGirl.create :user
-
-          sign_in user
-
-          get :show, id: book.id
-          expect(assigns(:user)).to eq user
-        end
-      end
-
-      context 'user not logged' do
-        it 'should assigns @user with new user' do
-          user = FactoryGirl.create :user
-
-          allow(User).to receive(:new).and_return(user)
-
-          get :show, id: book.id
-          expect(assigns(:user)).to eq user
-        end
-      end
     end
   end
 

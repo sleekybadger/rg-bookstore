@@ -16,10 +16,14 @@ module ApplicationHelper
   end
 
   def shopping_cart_link
-    # size = cart_items.empty? ? t('cart.emprty_short') : " (#{cart_items.size} - #{@current_order.items_total_price}#{t('currancy')})"
+    text =
+      if @current_order.order_items.empty?
+        t('cart.short_empty')
+      else
+        " (#{@current_order.order_items.size} - #{beauty_price(@current_order.items_price)}#{t('currancy')})"
+      end
 
-    # link_to glyph_icon(:shopping_cart) + size, cart_path
-    ''
+    link_to glyph_icon(:shopping_cart) + text, shopper_path
   end
 
   def current_p?(*paths)

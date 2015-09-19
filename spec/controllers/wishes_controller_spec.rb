@@ -1,17 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe WishesController, type: :controller do
-  let(:user) { FactoryGirl.create :user }
-  let(:book) { FactoryGirl.create :book }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:book) { FactoryGirl.create(:book) }
+  let(:wish) { FactoryGirl.create(:wish, user: user, book: book) }
   let(:ability) { create_ability }
 
   describe '#index' do
     context 'user logged' do
       before { sign_in user }
 
-      it 'should assigns @user' do
+      it 'expect to assigns @user' do
         get :index, user_id: user.id
         expect(assigns(:user)).not_to be_nil
+      end
+
+      it 'expect to assigns @wishes' do
+        get :index, user_id: user.id
+        expect(assigns(:wishes)).not_to be_nil
       end
 
       it { expect(get :index, user_id: user.id).to render_template('index') }
@@ -21,10 +27,10 @@ RSpec.describe WishesController, type: :controller do
       it { expect(get :index, user_id: user.id).to redirect_to(new_user_session_path) }
     end
 
-    context 'without user abilities' do
+    context 'without abilities' do
       before do
         sign_in user
-        ability.cannot :manage, User
+        ability.cannot :manage, Wish
       end
 
       it { expect(get :index, user_id: user.id).to redirect_to(root_path) }
@@ -37,40 +43,46 @@ RSpec.describe WishesController, type: :controller do
         sign_in user
         allow(Book).to receive(:find).with(book.id.to_s) { book }
         allow(controller).to receive(:current_user) { user }
-        allow(user).to receive_message_chain(:wishes, :exists?).with(book) { true }
+        allow(user).to receive_message_chain(:wishes, :new) { wish }
       end
 
-      it 'should assigns @user' do
-        get :index, user_id: user.id
-        expect(assigns(:user)).not_to be_nil
-      end
-
-      it 'should receive find for Book and return book' do
-        expect(Book).to receive(:find).with(book.id.to_s)
-        post :create, book_id: book.id
-      end
-
-      it 'should assigns @book' do
+      it 'expect to assigns @book' do
         post :create, book_id: book.id
         expect(assigns(:book)).not_to be_nil
       end
 
-      context 'user has book in wishes' do
-        it 'should not receive << for user wishes' do
-          expect(user.wishes).not_to receive(:<<)
+      it 'expect to assigns @wish' do
+        post :create, book_id: book.id
+        expect(assigns(:wish)).not_to be_nil
+      end
+
+      it 'expect to receive :book=' do
+        expect(wish).to receive(:book=)
+        post :create, book_id: book.id
+      end
+
+      it 'expect to receive :save' do
+        expect(wish).to receive(:save)
+        post :create, book_id: book.id
+      end
+
+      it { expect(post :create, book_id: book.id).to redirect_to(book_path(book)) }
+
+      context 'save successfully' do
+        it 'expect to fill notice' do
+          allow(wish).to receive(:save) { true }
           post :create, book_id: book.id
+          expect(flash[:notice]).not_to be_nil
         end
       end
 
-      context 'user has not book in wishes' do
-        it 'should receive << for user wishes' do
-          allow(user).to receive_message_chain(:wishes, :exists?).with(book) { false }
-          expect(user.wishes).to receive(:<<)
+      context 'save unsuccessfully' do
+        it 'expect to fill alert' do
+          allow(wish).to receive(:save) { false }
           post :create, book_id: book.id
+          expect(flash[:alert]).not_to be_nil
         end
       end
-
-      it { expect(post :create, book_id: book.id).to redirect_to(user_wishes_path(user)) }
     end
 
     context 'user not logged' do
@@ -80,7 +92,7 @@ RSpec.describe WishesController, type: :controller do
     context 'without user abilities' do
       before do
         sign_in user
-        ability.cannot :manage, User
+        ability.cannot :manage, Wish
       end
 
       it { expect(post :create, book_id: book.id).to redirect_to(root_path) }
@@ -91,55 +103,51 @@ RSpec.describe WishesController, type: :controller do
     context 'user logged' do
       before do
         sign_in user
-        allow(Book).to receive(:find).with(book.id.to_s) { book }
+        allow(Wish).to receive(:find).with(wish.id.to_s) { wish }
         allow(controller).to receive(:current_user) { user }
-        allow(user).to receive_message_chain(:wishes, :exists?).with(book) { false }
+        request.env['HTTP_REFERER'] = 'pampam'
       end
 
-      it 'should assigns @user' do
-        delete :destroy, book_id: book.id
-        expect(assigns(:user)).not_to be_nil
+      it 'expect to assigns @wish' do
+        delete :destroy, id: wish.id
+        expect(assigns(:wish)).not_to be_nil
       end
 
-      it 'should receive find for Book and return book' do
-        expect(Book).to receive(:find).with(book.id.to_s)
-        delete :destroy, book_id: book.id
+      it 'expect to receive :destroy' do
+        expect(wish).to receive(:destroy)
+        delete :destroy, id: wish.id
       end
 
-      it 'should assigns @book' do
-        delete :destroy, book_id: book.id
-        expect(assigns(:book)).not_to be_nil
-      end
+      it { expect(delete :destroy, id: wish.id).to redirect_to('pampam') }
 
-      context 'user has book in wishes' do
-        it 'should not receive delete for user wishes' do
-          expect(user.wishes).not_to receive(:delete)
-          delete :destroy, book_id: book.id
+      context 'destroyed successfully' do
+        it 'expect to fill notice' do
+          allow(wish).to receive(:destroy) { true }
+          delete :destroy, id: wish.id
+          expect(flash[:notice]).not_to be_nil
         end
       end
 
-      context 'user has not book in wishes' do
-        it 'should receive delete for user wishes' do
-          allow(user).to receive_message_chain(:wishes, :exists?).with(book) { true }
-          expect(user.wishes).to receive(:delete)
-          delete :destroy, book_id: book.id
+      context 'destroyed unsuccessfully' do
+        it 'expect to fill alert' do
+          allow(wish).to receive(:destroy) { false }
+          delete :destroy, id: wish.id
+          expect(flash[:alert]).not_to be_nil
         end
       end
-
-      it { expect(delete :destroy, book_id: book.id).to redirect_to(user_wishes_path(user)) }
     end
 
     context 'user not logged' do
-      it { expect(delete :destroy, book_id: book.id).to redirect_to(new_user_session_path) }
+      it { expect(delete :destroy, id: wish.id).to redirect_to(new_user_session_path) }
     end
 
     context 'without user abilities' do
       before do
         sign_in user
-        ability.cannot :manage, User
+        ability.cannot :manage, Wish
       end
 
-      it { expect(delete :destroy, book_id: book.id).to redirect_to(root_path) }
+      it { expect(delete :destroy, id: wish.id).to redirect_to(root_path) }
     end
   end
 end

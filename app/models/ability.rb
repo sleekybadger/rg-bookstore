@@ -1,11 +1,8 @@
 class Ability
-
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :create, :read, :update, :destroy, to: :crud
     alias_action :read, :update, :destroy, to: :rud
-    alias_action :update, :destroy, to: :ud
 
     if user
       if user.is_admin?
@@ -13,11 +10,14 @@ class Ability
         can :dashboard
         can :manage, :all
       else
-        # can :rud, [BillingAddress, ShippingAddress], addressable_type: 'User', addressable_id: user.id
-        # can :create, BillingAddress unless user.billing_address.present? && user.billing_address.id
-        # can :create, ShippingAddress unless user.shipping_address.present? && user.shipping_address.id
-        can :ud, User, id: user.id
-        can :read, User
+        can %i(create read), Wish
+        can :destroy, Wish, user_id: user.id
+        can :rud, [Shopper::BillingAddress, Shopper::ShippingAddress], addressable_type: 'User', addressable_id: user.id
+        can :create, Shopper::BillingAddress unless user.billing_address.present? && user.billing_address.id
+        can :create, Shopper::ShippingAddress unless user.shipping_address.present? && user.shipping_address.id
+        can :rud, User, id: user.id
+        can :update_info, User, id: user.id
+        can :update_password, User, id: user.id
 
         can :add_review_to_book, Book do |book|
           true unless user.is_left_review?(book)
@@ -29,5 +29,4 @@ class Ability
     can :read, Category
     can :read, Author
   end
-
 end

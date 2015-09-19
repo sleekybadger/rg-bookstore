@@ -7,7 +7,6 @@ class BooksController < ApplicationController
   end
 
   def show
-    # @order_item = OrderItem.new
-    @user = current_user || User.new
+    @wish = current_user.wishes.find_by(book: @book) if current_user
   end
 end

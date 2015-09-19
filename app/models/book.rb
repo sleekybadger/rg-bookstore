@@ -1,12 +1,13 @@
 class Book < ActiveRecord::Base
-
   belongs_to :author
   belongs_to :category
 
   has_many :reviews, dependent: :destroy
-  # has_many :order_items, dependent: :destroy
+  has_many :wishes, dependent: :destroy
 
   mount_uploader :cover, CoverUploader
+
+  register_as_product
 
   paginates_per 10
 
@@ -14,16 +15,6 @@ class Book < ActiveRecord::Base
   validates :price, numericality: true
   validates :short_description, length: { maximum: 500 }
   validates :full_description, length: { maximum: 2000 }
-
-  scope :best_sellers, -> (num = 3) do
-    Book
-      .select('books.*, sum(order_items.quantity) as q')
-      .joins(:order_items)
-      .group(:id)
-      .order('q DESC')
-      .offset(0)
-      .limit(num)
-  end
 
   scope :search, -> (query) do
     Book.where('lower(title) LIKE ?', "%#{query.to_s.downcase}%")
@@ -48,8 +39,6 @@ class Book < ActiveRecord::Base
   end
 
   def calculate_average_rating!
-    self.average_rating = calculate_average_rating
-    self.save
+    update(average_rating: calculate_average_rating)
   end
-
 end

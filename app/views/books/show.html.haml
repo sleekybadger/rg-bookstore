@@ -12,12 +12,12 @@
       .author
         %strong.caption
           = t 'book.author'
-        = @book.author
+        = link_to @book.author, @book.author
 
       .price
         %strong.caption
           = t 'book.price'
-        #{@book.price}#{t('currancy')}
+        #{beauty_price(@book.price)}#{t('currancy')}
 
       .rating
         - if @book.average_rating > 0
@@ -25,10 +25,11 @@
             = glyph_icon(:star)
 
       .add-to-cart
+        = render partial: 'shopper/products/add_to_cart', locals: { product: @book }
 
       .wish-list
-        - if @user.wishes.exists? @book
-          = form_tag book_wishes_path(@book), method: :delete do
+        - if @wish
+          = form_tag wish_path(@wish), method: :delete do
             .form-group
               = button_tag t('wishes.remove'), name: nil, class: 'btn btn-warning'
         - else

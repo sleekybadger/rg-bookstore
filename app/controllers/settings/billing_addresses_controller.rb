@@ -1,11 +1,14 @@
 class Settings::BillingAddressesController < Settings::AddressController
-
   before_filter :create_billing_address, only: :create
 
-  load_and_authorize_resource :billing_address, through: :current_user, singleton: true, param_method: :billing_params
+  load_and_authorize_resource :billing_address,
+    through: :current_user,
+    singleton: true,
+    class: "Shopper::BillingAddress",
+    param_method: :billing_params
 
   def show
-    @billing_address ||= BillingAddress.new
+    @billing_address ||= Shopper::BillingAddress.new
   end
 
   def create
@@ -40,12 +43,11 @@ class Settings::BillingAddressesController < Settings::AddressController
 
   private
 
-    def billing_params
-      params.require(:billing_address).permit(*address_fields)
-    end
+  def billing_params
+    params.require(:billing_address).permit(*address_fields)
+  end
 
-    def create_billing_address
-      @billing_address = current_user.build_billing_address(billing_params)
-    end
-
+  def create_billing_address
+    @billing_address = current_user.build_billing_address(billing_params)
+  end
 end

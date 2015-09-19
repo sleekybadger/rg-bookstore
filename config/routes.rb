@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   get '/search', to: 'home#search', as: 'search'
 
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
   devise_for(:users,
     path: 'auth',
     skip: %i(registrations),
@@ -20,16 +18,17 @@ Rails.application.routes.draw do
   end
 
   resources :authors, only: %i(show index)
-
-  resources :categories, only: %i(show)
+  resources :categories, only: :show
 
   resources :books, only: %i(show index) do
     resources :reviews, only: %i(new create index)
-    resource :wishes, only: %i(create destroy)
+    resources :wishes, only: :create
   end
 
+  resources :wishes, only: :destroy
+
   resources :users, only: :none do
-    resources :wishes, only: %i(index)
+    resources :wishes, only: :index
   end
 
   namespace :settings do
@@ -48,4 +47,7 @@ Rails.application.routes.draw do
       get 'canceled'
     end
   end
+
+  mount Shopper::Engine => '/cart', as: 'shopper'
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 end

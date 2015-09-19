@@ -1,5 +1,4 @@
 class Settings::ProfilesController < ApplicationController
-
   before_filter :authenticate_user!
   before_action :set_user
 
@@ -46,16 +45,15 @@ class Settings::ProfilesController < ApplicationController
 
   private
 
-    def set_user
-      @user = current_user
-    end
+  def set_user
+    @user = current_user
+  end
 
-    def user_info_params
-      params.require(:user).permit(:first_name, :last_name, :email)
-    end
+  def user_info_params
+    params.require(:user).permit(:first_name, :last_name, :email)
+  end
 
-    def user_password_params
-      params.require(:user).permit(:current_password, :password, :password_confirmation)
-    end
-
+  def user_password_params
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
+  end
 end

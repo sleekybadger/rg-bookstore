@@ -4,15 +4,15 @@
 
 - if @user.wishes.empty?
   .wishes-for
-    = can?(:update, @user) ? t('wishes.my_empty') : t('wishes.user_empty', user: @user)
+    = (current_user.id == @user.id) ? t('wishes.my_empty') : t('wishes.user_empty', user: @user)
 - else
   .wishes-for
-    = can?(:update, @user) ? t('wishes.my_wishes') : t('wishes.user_wishes', user: @user)
+    = (current_user.id == @user.id) ? t('wishes.my_wishes') : t('wishes.user_wishes', user: @user)
 
   %ul.list-unstyled.wishes-list
-    - @user.wishes.each do |book|
+    - @user.wishes.each do |w|
       %li
-        = link_to book, book
-        - if can? :update, @user
-          = form_tag book_wishes_path(book), method: :delete do
+        = link_to w.book, w.book
+        - if can?(:destroy, w)
+          = form_tag wish_path(w), method: :delete do
             = button_tag t('wishes.remove'), name: nil, class: 'btn btn-warning'

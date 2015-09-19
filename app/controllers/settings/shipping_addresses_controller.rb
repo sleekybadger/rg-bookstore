@@ -1,11 +1,14 @@
 class Settings::ShippingAddressesController < Settings::AddressController
-
   before_filter :create_shipping_address, only: :create
 
-  load_and_authorize_resource :shipping_address, through: :current_user, singleton: true, param_method: :shipping_params
+  load_and_authorize_resource :shipping_address,
+    through: :current_user,
+    singleton: true,
+    class: "Shopper::ShippingAddress",
+    param_method: :shipping_params
 
   def show
-    @shipping_address ||= ShippingAddress.new
+    @shipping_address ||= Shopper::ShippingAddress.new
   end
 
   def create
@@ -40,12 +43,11 @@ class Settings::ShippingAddressesController < Settings::AddressController
 
   private
 
-    def shipping_params
-      params.require(:shipping_address).permit(*address_fields)
-    end
+  def shipping_params
+    params.require(:shipping_address).permit(*address_fields)
+  end
 
-    def create_shipping_address
-      @shipping_address = current_user.build_shipping_address(shipping_params)
-    end
-
+  def create_shipping_address
+    @shipping_address = current_user.build_shipping_address(shipping_params)
+  end
 end

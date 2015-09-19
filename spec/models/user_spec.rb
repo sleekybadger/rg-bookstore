@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject(:user) { FactoryGirl.create :user }
 
-  context 'Validation' do
+  describe 'Validation' do
     it { expect(user).to validate_presence_of(:email) }
     it { expect(user).to validate_presence_of(:first_name) }
     it { expect(user).to validate_presence_of(:last_name) }
@@ -14,11 +14,12 @@ RSpec.describe User, type: :model do
     it { expect(user).not_to allow_value('johndougmail.com').for(:email) }
   end
 
-  context 'Associations' do
-    # it { expect(user).to have_one(:billing_address).dependent(:destroy) }
-    # it { expect(user).to have_one(:shipping_address).dependent(:destroy) }
+  describe 'Associations' do
+    it { expect(user).to have_one(:billing_address).dependent(:destroy) }
+    it { expect(user).to have_one(:shipping_address).dependent(:destroy) }
     it { expect(user).to have_many(:reviews).dependent(:destroy) }
-    # it { expect(user).to have_many(:orders) }
+    it { expect(user).to have_many(:orders).dependent(:nullify) }
+    it { expect(user).to have_many(:wishes).dependent(:destroy) }
   end
 
   describe '.from_omniauth' do

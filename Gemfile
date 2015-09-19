@@ -31,11 +31,12 @@ gem 'kaminari'
 gem 'aasm'
 gem 'wicked'
 gem 'twitter-bootstrap-rails'
+gem 'shopper', git: 'https://github.com/lukyanovfedor/rg-shopper-engine.git'
 gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
+  gem 'better_errors'
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
